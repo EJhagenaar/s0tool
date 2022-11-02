@@ -61,6 +61,25 @@ sensor:
     filters:
        lambda: return x * (60.0 / id(Select_pulse_rate).state);
 
+# ⬇ kwh meter s0 ⬇ #
+  - platform: pulse_meter
+    pin: D5
+    name:  "Actuele energie mqtt"
+    id: actual_power_mqtt
+    icon: "mdi:flash"
+    # internal_filter: ${impulslengte} 
+    accuracy_decimals: 3
+    unit_of_measurement: 'kW'
+    state_class: measurement
+    device_class: power
+    filters:
+       lambda: return x * ((60.0 / id(Select_pulse_rate).state))*1000;
+    on_value:
+        - mqtt.publish_json:
+            topic: "Solax/X3 Ac Power mqtt"
+            payload: |-
+              root["value"] =id(actual_power_mqtt).state;
+
 # ⬇ Totaal opgebracht ⬇ #    
     total:
       unit_of_measurement: 'kWh'
