@@ -4,8 +4,7 @@
 # © Huizebruin.nl
 substitutions:
   device_description: ${name} gemaakt door huizebruin.nl versie ${vdate} .
-  name: s0tool-dsz12d
-  impulslengte: "30ms" 
+  name: s0tool-standard-flux
 
 esphome:
   name: ${name}
@@ -19,7 +18,7 @@ esphome:
     version: "${vdate}"
   
 dashboard_import:
-  package_import_url: github://huizebruin/s0tool/esphome/S0-puls-DSZ12D.yaml
+  package_import_url: github://huizebruin/s0tool/esphome/pulscounter_flux.yaml
 
 packages:   
   remote_package:
@@ -27,5 +26,6 @@ packages:
     ref: main
     files: 
       - esphome/components/basis.yaml
-      - esphome/components/DSZ12D.yml
-    refresh: 0d   
+      - esphome/components/kwhpuls.yml
+      - esphome/components/watermeter_flux.yaml
+#     refresh: 0d 

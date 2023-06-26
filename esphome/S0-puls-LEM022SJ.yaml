@@ -9,16 +9,17 @@ substitutions:
 
 esphome:
   name: ${name}
-  name_add_mac_suffix: true
   platform: ESP8266
   board: d1_mini
+  name_add_mac_suffix: true
+  esp8266_restore_from_flash: true   
   comment: '${device_description}'
   project:
     name: huizebruin.${name}
     version: "${vdate}"
   
 dashboard_import:
-  package_import_url: github://huizebruin/s0tool/esphome/LEM022SJ.yaml
+  package_import_url: github://huizebruin/s0tool/esphome/S0-puls-LEM022SJ.yaml
 
 packages:   
   remote_package:

@@ -60,16 +60,13 @@ binary_sensor:
     on_press:
       - then:
           lambda: id(total_water_pulses) += 1;  
-
 sensor:
 #------------------------# Watermeter #------------------------#
 # ⬇ watermeter pulsen ⬇ #
-  - platform: pulse_meter #pulse_counter
-    internal_filter_mode: "PULSE"
-    internal_filter: 50ms  
+  - platform: pulse_counter
     pin: D2
-    id: watermeter_flow
-    name: "watermeter flow"
+    id: watermeter_pulse
+    name: "watermeter pulse"
     state_class: measurement
     unit_of_measurement: "l/min"    
     accuracy_decimals: 1
@@ -81,15 +78,12 @@ sensor:
     total:
       id: sensor_pulse_meter_total
       name: "watermeter Totaal"
-      state_class: "total_increasing"
-      device_class: water
-      icon: mdi:water
       unit_of_measurement: "m³"
+      state_class: total_increasing
+      device_class: water
       accuracy_decimals: 3
       filters:
-        - multiply: 0.001
-      # filters:
-      #  lambda: return x * atof(id(Select_pulse_water).state.c_str());
+        lambda: return x * atof(id(Select_pulse_water).state.c_str());
 
       
 # ⬇ Watermeter stand bij benadering ⬇ #
@@ -97,19 +91,16 @@ sensor:
     id: watermeter_total
     name: "watermeter stand"
     state_class: "total_increasing"
-    device_class: water
     icon: mdi:water
     unit_of_measurement: "m³"
-    update_interval: 30s
     accuracy_decimals: 3
     lambda: return id(initial_water_usage) + (id(total_water_pulses) * atof(id(Select_pulse_water).state.c_str()));
 
 # ⬇ Waterpulses  only web interface for debugging ⬇ #
   - platform: template
-    id: watermeter_flow_totaal
-    name: "watermeter flow totaal"
+    id: watermeter_pulses
+    name: "watermeter pulses totaal"
     state_class: "total_increasing"
     accuracy_decimals: 0
     lambda: return id(total_water_pulses);
     internal: True
-
